@@ -2,20 +2,7 @@ import './styles/main.css';
 import { getCurrentSection, getFilters } from './js/filters';
 import { renderReadLaterItems } from './js/read-later';
 import { renderNewsTiles } from './js/news';
-
-const debounce = (func, wait) => {
-    let timeout;
-
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-};
+import { debounce } from './js/helpers/debounce';
 
 const handleSearchDebounced = debounce(() => {
     const { section, searchPhrase } = getFilters();
