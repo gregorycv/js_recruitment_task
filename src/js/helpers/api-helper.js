@@ -1,9 +1,5 @@
 import config from '../api-config/config';
-import {
-    getCurrentSection,
-    setActivePageOptions,
-    setCurrentPage,
-} from '../filters';
+import { setActivePageOptions, setCurrentPage } from '../filters';
 
 // TODO: refactor to allow passing different date formats
 const getFromDateQueryString = (numberOfDaysAgo = 30) => {
@@ -21,7 +17,6 @@ const getNewsEndpoint = (section, pageId = 1, searchPhrase) => {
     const endpoint = `${url}?${sectionQueryParam}&from-date=${last30days}&page=${pageId}${searchPhraseQueryParam}&api-key=${key}`;
 
     console.log(endpoint);
-    console.log(getCurrentSection());
     return endpoint;
 };
 

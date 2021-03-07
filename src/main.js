@@ -30,9 +30,18 @@ document.getElementById('activePageSelect').addEventListener('change', () => {
     renderNewsTiles(section, pageId);
 });
 
-document.getElementById('newsContentSearch').addEventListener('keyup', (e) => {
-    const { key } = e;
-    if (key.length === 1 && /[a-zA-Z0-9- ]/.test(key)) handleSearchDebounced();
+document.getElementById('newsContentSearch').addEventListener('input', (e) => {
+    const { data, inputType, target } = e;
+
+    if (inputType === 'insertText') {
+        if (/[a-zA-Z0-9- ]/.test(data)) handleSearchDebounced();
+    } else {
+        if (target.value !== '') {
+            handleSearchDebounced();
+        } else {
+            renderNewsTiles();
+        }
+    }
 });
 
 document.addEventListener('storage', renderReadLaterItems);
