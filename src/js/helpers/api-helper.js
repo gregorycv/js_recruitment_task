@@ -16,7 +16,6 @@ const getNewsEndpoint = (section, pageId = 1, searchPhrase) => {
     const searchPhraseQueryParam = searchPhrase ? `&q=${searchPhrase}` : '';
     const endpoint = `${url}?${sectionQueryParam}&from-date=${last30days}&page=${pageId}${searchPhraseQueryParam}&api-key=${key}`;
 
-    console.log(endpoint);
     return endpoint;
 };
 

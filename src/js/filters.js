@@ -14,7 +14,6 @@ const getCurrentPage = () => {
 const getCurrentSearchPhrase = () => {
     const searchInput = document.getElementById('newsContentSearch');
     const { value } = searchInput;
-    console.log(value);
     return value.toLowerCase();
 };
 

@@ -10,12 +10,10 @@ const storeEnum = {
 const { LS_STORE_KEY, ACTION_ADD, ACTION_DELETE, ACTION_GET_STORE } = storeEnum;
 
 const addReadLaterItem = (item) => {
-    console.log(item);
     storeManager(ACTION_ADD, item);
 };
 
 const deleteReadLaterItem = (item) => {
-    console.log(item);
     storeManager(ACTION_DELETE, item);
 };
 
@@ -60,7 +58,6 @@ const unmountOldReadLaterItems = () => {
 
 const storeManager = (action, payload) => {
     const currentStore = JSON.parse(localStorage.getItem(LS_STORE_KEY)) || [];
-    console.log(currentStore);
     switch (action) {
     case ACTION_GET_STORE:
         return [...currentStore];
