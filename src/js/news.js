@@ -1,5 +1,6 @@
 import { addReadLaterItem } from './read-later';
 import { getNewsEndpoint, fetchNews } from './helpers/api-helper';
+import { toggleNoResultsMessage } from './no-results';
 
 const renderNewsTile = (data) => {
     const { webTitle, sectionName, webPublicationDate, webUrl } = data;
@@ -33,7 +34,12 @@ const renderNewsTiles = (section, pageId, searchPhrase) => {
     removeOldNewsTiles();
     const newsUrl = getNewsEndpoint(section, pageId, searchPhrase);
     fetchNews(newsUrl).then((results) => {
-        results.forEach((result) => renderNewsTile(result));
+        if (results.length > 0) {
+            toggleNoResultsMessage('.newsList', false);
+            results.forEach((result) => renderNewsTile(result));
+        } else {
+            toggleNoResultsMessage('.newsList', true);
+        }
     });
 };
 
