@@ -1,3 +1,5 @@
+import { toggleNoResultsMessage } from './no-results';
+
 const storeEnum = {
     LS_STORE_KEY: 'readLaterStore',
     ACTION_ADD: 'add',
@@ -41,7 +43,14 @@ const renderReadLaterItem = (data) => {
 const renderReadLaterItems = () => {
     unmountOldReadLaterItems();
     const readLaterItems = getReadLaterItems();
-    readLaterItems.forEach((readLaterItem) => renderReadLaterItem(readLaterItem));
+    if (readLaterItems.length > 0) {
+        toggleNoResultsMessage('.readLaterList', false);
+        readLaterItems.forEach((readLaterItem) =>
+            renderReadLaterItem(readLaterItem)
+        );
+    } else {
+        toggleNoResultsMessage('.readLaterList', true);
+    }
 };
 
 const unmountOldReadLaterItems = () => {
