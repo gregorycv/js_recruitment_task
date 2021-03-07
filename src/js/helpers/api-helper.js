@@ -28,6 +28,10 @@ const fetchNews = (url) => {
             setActivePageOptions(response.pages);
             setCurrentPage(response.currentPage);
             return response.results;
+        })
+        .catch((err) => {
+            console.log(err);
+            return [];
         });
 };
 
