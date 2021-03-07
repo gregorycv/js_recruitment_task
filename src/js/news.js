@@ -2,6 +2,11 @@ import { addReadLaterItem } from './read-later';
 import { getNewsEndpoint, fetchNews } from './helpers/api-helper';
 import { toggleNoResultsMessage } from './no-results';
 
+const parseDate = (date) => {
+    const dateObject = new Date(date);
+    return dateObject.toDateString();
+};
+
 const renderNewsTile = (data) => {
     const { webTitle, sectionName, webPublicationDate, webUrl } = data;
 
@@ -12,7 +17,9 @@ const renderNewsTile = (data) => {
         '.newsDetails li'
     );
     sectionTitle.textContent = `Section title: ${sectionName}`;
-    publicationDate.textContent = `Publication date: ${webPublicationDate}`;
+    publicationDate.textContent = `Publication date: ${parseDate(
+        webPublicationDate
+    )}`;
     const readMoreLink = newsTile.querySelector('a');
     readMoreLink.setAttribute('href', webUrl);
     const readLaterButton = newsTile.querySelector('.button.button-outline');
