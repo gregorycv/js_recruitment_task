@@ -6,6 +6,7 @@ import {
     getFilters,
     setCurrentPage,
 } from './js/filters';
+import { addReadLaterItem, renderReadLaterItems } from './js/read-later';
 
 // TODO: refactor to allow passing different date formats
 const getFromDateQueryString = (numberOfDaysAgo = 30) => {
@@ -41,6 +42,10 @@ const renderNewsTile = (data) => {
     publicationDate.textContent = `Publication date: ${webPublicationDate}`;
     const readMoreLink = newsTile.querySelector('a');
     readMoreLink.setAttribute('href', webUrl);
+    const readLaterButton = newsTile.querySelector('.button.button-outline');
+    readLaterButton.addEventListener('click', () =>
+        addReadLaterItem({ webTitle, webUrl })
+    );
 
     newsTile.querySelector('article').classList.remove('hidden');
     newsTile.classList.add('newsTile');
@@ -97,6 +102,7 @@ const handleSearchDebounced = debounce(() => {
 
 document.addEventListener('DOMContentLoaded', () => {
     displayNewsTiles();
+    renderReadLaterItems();
 });
 
 document.getElementById('sectionSelect').addEventListener('change', () => {
@@ -116,3 +122,5 @@ document.getElementById('newsContentSearch').addEventListener('keyup', (e) => {
     const { key } = e;
     if (key.length === 1 && /[a-zA-Z0-9- ]/.test(key)) handleSearchDebounced();
 });
+
+document.addEventListener('storage', renderReadLaterItems);
