@@ -16,11 +16,12 @@ const getFromDateQueryString = (numberOfDaysAgo = 30) => {
     return last30days.toISOString().slice(0, 10);
 };
 
-const getNewsEndpoint = (section = 'news', pageId = 1, searchPhrase) => {
+const getNewsEndpoint = (section, pageId = 1, searchPhrase) => {
     const { url, key } = apiConfig;
     const last30days = getFromDateQueryString();
+    const sectionQueryParam = section ? `section=${section}&` : '';
     const searchPhraseQueryParam = searchPhrase ? `&q=${searchPhrase}` : '';
-    const endpoint = `${url}?section=${section}&from-date=${last30days}&page=${pageId}${searchPhraseQueryParam}&api-key=${key}`;
+    const endpoint = `${url}?${sectionQueryParam}&from-date=${last30days}&page=${pageId}${searchPhraseQueryParam}&api-key=${key}`;
 
     console.log(endpoint);
     console.log(getCurrentSection());
@@ -94,8 +95,8 @@ const debounce = (func, wait) => {
 
 const handleSearchDebounced = debounce(() => {
     const { section, searchPhrase } = getFilters();
-    console.log(searchPhrase);
-    displayNewsTiles(section, 1, searchPhrase);
+    if (searchPhrase && searchPhrase.trim())
+        displayNewsTiles(section, 1, searchPhrase);
 }, 400);
 
 // event listeners

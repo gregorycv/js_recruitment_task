@@ -1,7 +1,7 @@
 const getCurrentSection = () => {
     const sectionSelect = document.getElementById('sectionSelect');
     const { value } = sectionSelect;
-    if (value === 'all') return 'news'; // news is general, we want to fetch ALL news
+    if (value === 'all') return ''; // news is general, we want to fetch ALL news
     return value.toLowerCase();
 };
 
