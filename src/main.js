@@ -18,8 +18,8 @@ const getFromDateQueryString = (numberOfDaysAgo = 30) => {
 const getNewsEndpoint = (section = 'news', pageId = 1, searchPhrase) => {
     const { url, key } = apiConfig;
     const last30days = getFromDateQueryString();
-    const q = searchPhrase ? `&q=${searchPhrase}` : '';
-    const endpoint = `${url}?section=${section}&from-date=${last30days}&page=${pageId}${q}&api-key=${key}`;
+    const searchPhraseQueryParam = searchPhrase ? `&q=${searchPhrase}` : '';
+    const endpoint = `${url}?section=${section}&from-date=${last30days}&page=${pageId}${searchPhraseQueryParam}&api-key=${key}`;
 
     console.log(endpoint);
     console.log(getCurrentSection());
@@ -73,6 +73,26 @@ const fetchNews = (url) => {
         });
 };
 
+const debounce = (func, wait) => {
+    let timeout;
+
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
+
+const handleSearchDebounced = debounce(() => {
+    const { section, searchPhrase } = getFilters();
+    console.log(searchPhrase);
+    displayNewsTiles(section, 1, searchPhrase);
+}, 400);
+
 // event listeners
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -80,6 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.getElementById('sectionSelect').addEventListener('change', () => {
+    // TODO: optimize
+    const searchInput = document.getElementById('newsContentSearch');
+    searchInput.value = '';
     const section = getCurrentSection();
     displayNewsTiles(section);
 });
@@ -87,4 +110,9 @@ document.getElementById('sectionSelect').addEventListener('change', () => {
 document.getElementById('activePageSelect').addEventListener('change', () => {
     const { section, pageId } = getFilters();
     displayNewsTiles(section, pageId);
+});
+
+document.getElementById('newsContentSearch').addEventListener('keyup', (e) => {
+    const { key } = e;
+    if (key.length === 1 && /[a-zA-Z0-9- ]/.test(key)) handleSearchDebounced();
 });

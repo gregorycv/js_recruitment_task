@@ -8,14 +8,21 @@ const getCurrentSection = () => {
 const getCurrentPage = () => {
     const activePageSelect = document.getElementById('activePageSelect');
     const { value } = activePageSelect;
-    console.log(value);
     return value;
+};
+
+const getCurrentSearchPhrase = () => {
+    const searchInput = document.getElementById('newsContentSearch');
+    const { value } = searchInput;
+    console.log(value);
+    return value.toLowerCase();
 };
 
 const getFilters = () => {
     return {
-        pageId: getCurrentPage(),
         section: getCurrentSection(),
+        pageId: getCurrentPage(),
+        searchPhrase: getCurrentSearchPhrase(),
     };
 };
 
@@ -40,6 +47,7 @@ const setCurrentPage = (pageId) => {
 export {
     getCurrentSection,
     getCurrentPage,
+    getCurrentSearchPhrase,
     getFilters,
     setCurrentPage,
     setActivePageOptions,
