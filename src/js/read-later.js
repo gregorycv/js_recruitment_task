@@ -62,6 +62,10 @@ const storeManager = (action, payload) => {
     case ACTION_GET_STORE:
         return [...currentStore];
     case ACTION_ADD:
+        if (currentStore.find((item) => item.webTitle === payload.webTitle)) {
+            alert('you have already added this to read later');
+            return;
+        }
         localStorage.setItem(
             LS_STORE_KEY,
             JSON.stringify([...currentStore, payload])
